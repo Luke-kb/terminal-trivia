@@ -1,34 +1,56 @@
-require 'countries'
+require 'httparty'
+require 'tty-prompt'
 
 class Question
+  attr_reader :category, :difficulty, :question, :correct_answer, :incorrect_answers
+
   def initialize
+
+    @url = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple"
+    response = HTTParty.get(@url)
+
+    #assign returned results to variable
+    question_bank = response.parsed_response
+
+    # print all values for reference
+    # p question_bank
+
+    # assign variables to keys in results
+    @category = question_bank["results"][0]["category"]
+    # p @category
+
+    @difficulty = question_bank["results"][0]["difficulty"]
+    # p @difficulty
+
+    @question = question_bank["results"][0]["question"]
+    # p @question
+
+    @correct_answer = question_bank["results"][0]["correct_answer"]
+    # p @correct_answer
+
+    @incorrect_answers = question_bank["results"][0]["incorrect_answers"]
+    # p @incorrect_answers
+
   end
-  def get_answer
-  end
+
 end
 
-class Quiz
+question1 = Question.new
+# p question1.question
+
+
+prompt = TTY::Prompt.new
+#sets up Q and shuffles the order of the answer options
+user_answer1 = prompt.select("#{question1.question}", question1.incorrect_answers.push(question1.correct_answer).shuffle)
+
+if user_answer1 == question1.correct_answer
+  puts "Nice!"
+else
+  puts "incorrect"
 end
 
-@@codes = ["DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ", "BH", "BS", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BQ", "BA", "BW", "BV", "BR", "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV", "KY", "CF", "TD", "CL", "CN", "CX", "CC", "CO", "KM", "CG", "CD", "CK", "CR", "CI", "HR", "CU", "CW", "CY", "CZ", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "GQ", "ER", "EE", "ET", "FK", "FO", "FJ", "FI", "FR", "GF", "PF", "TF", "GA", "GM", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GG", "GN", "GW", "GY", "HT", "HM", "VA", "HN", "HK", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IM", "IL", "IT", "JM", "JP", "JE", "JO", "KZ", "KE", "KI", "KP", "KR", "KW", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MK", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "ME", "MS", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "NC", "NZ", "NI", "NE", "NG", "NU", "NF", "MP", "NO", "OM", "PK", "PW", "PS", "PA", "PG", "PY", "PE", "PH", "PN", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "SH", "KN", "LC", "MF", "PM", "VC", "WS", "SM", "ST", "SA", "SN", "RS", "SC", "SL", "SG", "SX", "SK", "SI", "SB", "SO", "ZA", "GS", "SS", "ES", "LK", "SD", "SR", "SJ", "SZ", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO", "TT", "TN", "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "US", "UM", "UY", "UZ", "VU", "VE", "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW"]
 
-@@categories = ["name", "continent", "region", "nationality", "currency_code"]]
+# prompt.keypress("Press any key  to continue")
 
-def get_prompt
-    new_country = ISO3166::Country.new(@@codes.sample)
 
-    
-end
 
-# q1 = Question.new()
-
-  
-#   puts rand_country.name
-#   puts rand_country.alpha2
-#   p rand_country.continent
-#   p rand_country.subregion
-#   p rand_country.nationality
-#   # puts rand_country.subdivisions
-#   p rand_country.emoji_flag
-#   puts "\n"
-# end
