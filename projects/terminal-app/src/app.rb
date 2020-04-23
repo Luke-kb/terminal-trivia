@@ -1,13 +1,19 @@
 require 'tty-prompt'
 require 'tty-cursor'
 require 'artii'
+require 'colorize'
 require_relative './QuestionBank.rb'
 require_relative './methods.rb'
-require_relative '/Score.rb'
+require_relative './Score.rb'
 
 welcome
 any_key
 check_username
+
+
+
+
+
 
 # puts quiz.question_bank
 # puts quiz.q_prompt1
