@@ -21,11 +21,10 @@ end
 #welcome message before main menu
 def welcome
   clear
-  slow("welcome to", 0.1)
+  slow("welcome\n\nto", 0.2)
   sleep 1
   print "\n"
-  slow(".\n.\n.", 0.5)
-  print "\n"
+  slow(". . .", 0.2)
   clear
   title
 end
@@ -54,14 +53,12 @@ def quiz
   questions = QuestionBank.new
   
   # are you ready prompt
-  slow("Are you ready for some questions?\n", 0.08)
+  slow("Are you ready to begin?\n", 0.08)
   sleep 1
   any_key("press any key to continue..")
   
   #clear screen
   clear
-
-  # add spinning wheel?
   
   #print Question 1
   prompt = TTY::Prompt.new
@@ -134,31 +131,47 @@ def quiz
   end
 end
 
+#give user the score
 def get_score
+  
   clear
   puts "you scored #{@score} out of 5!"
 
 end
 
+
 def quiz_loop
 
+  #ask up to 5 questions
+  while @question_index < 5
+    
+    ask_question(@question_index)
+    #add method to insert faker comment?
+    @question_index += 1
 
+  end
 
+  any_key("Nice! Press any key to view your score!") 
 
 end
 
 
+def ask_question(num)
+  
+  #create tty-prompt instance
+  prompt = TTY::Prompt.new(active_color: :cyan)
+  
+  #ask the question
+  user_answer = prompt.select("#{@questions.prompts[@question_index]}", @questions.incorrect_answers[@question_index].push(@questions.correct_answers[@question_index]).shuffle.shuffle)
 
+  #keep score
+  if user_answer = @questions.correct_answers[@question_index]
+    @score += 1
+    #insert faker comment?
+    any_key("hit #{"spacebar".colorize(:green)} to continue..")
+  else 
+    #insert faker comment?
+    any_key("hit #{"spacebar".colorize(:green)} to continue..")
+  end
 
-
-# def validate_answer(number)
-#   if user_answer == questions.correct_answer
-#     @score =+ 1
-#     next_question
-#     p @score
-#   else
-#     puts "Feeling lucky?"
-#     sleep 2
-#     next_question
-#   end
-# end
+end
