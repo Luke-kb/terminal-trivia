@@ -3,6 +3,15 @@ def clear
 system 'clear'
 end
 
+#progressbar
+def prog_bar
+  bar = TTY::ProgressBar.new("[:bar]", total: 10)
+  30.times do
+    sleep(1)
+    bar.advance(1)
+  end
+end
+
 #print text slowly
 def slow(words, time)
   words.each_char { |char| 
@@ -18,7 +27,7 @@ def title
   puts title.asciify('Terminal Trivia !')
 end
 
-#welcome message before main menu
+#welcome message 
 def welcome
   clear
   slow("welcome to", 0.2)
@@ -72,7 +81,7 @@ def exit_app
   clear
   puts "BYE."
   sleep 2
-  exit    #find out how to close terminal window
+  exit    ####find out how to close terminal window
 end
 
 
@@ -104,21 +113,23 @@ def ask_question(num)
   
   #ask the question
   user_answer = prompt.select("#{@questions.prompts[@question_index]}", @questions.incorrect_answers[@question_index].push(@questions.correct_answers[@question_index]).shuffle)
-
   #keep score
   if user_answer = @questions.correct_answers[@question_index]
+    print @cursor.clear_lines(3, :up)
+    puts "#{Faker::Quote.robin.colorize(:cyan)}!\n" 
+    sleep 0.5
+    print @cursor.clear_lines(3, :up)
+    print @cursor.down(2)
     @score += 1
-    #insert faker comment?
-    print @cursor.clear_lines(3, :up)
-    print @cursor.down(1)
-    any_key("hit #{"spacebar".colorize(:green)} to continue..")
-    print @cursor.clear_lines(2, :up)
+    # prog_bar
+    # any_key("\nhit spacebar to continue..")
   else 
-    #insert faker comment?
     print @cursor.clear_lines(3, :up)
-    print @cursor.down(1)
-    any_key("hit #{"spacebar".colorize(:green)} to continue..")
-    print @cursor.clear_lines(2, :up)
+    puts "#{Faker::Quote.robin.colorize(:cyan)}!" 
+    sleep 0.5
+    print @cursor.clear_lines(3, :up)
+    print @cursor.down(2)
+    # prog_bar
+    # any_key("\nhit spacebar to continue..")
   end
-
 end

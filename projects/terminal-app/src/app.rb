@@ -1,8 +1,10 @@
 require 'tty-prompt'
 require 'tty-cursor'
+require 'tty-progressbar'
 require 'tty-box'
 require 'artii'
 require 'colorize'
+require 'faker'
 require_relative './QuestionBank.rb'
 require_relative './methods.rb'
 # require_relative './Score.rb' #not required atm
@@ -30,8 +32,8 @@ check_username
 
 print @cursor.clear_lines(4, :up) #clear lines
 any_key("READY? hit any key..")
+print @cursor.clear_lines(3, :up)
 print @cursor.down(1)
-print @cursor.clear_lines(4, :up)
 
 #run quiz questions
 quiz_loop
