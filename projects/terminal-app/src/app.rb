@@ -16,17 +16,22 @@ require_relative './methods.rb'
 #create QuestionBank instance and grab question data
 @questions = QuestionBank.new
 
-#hide cursor for duration of program
+#hide cursor for welcome 
 @cursor.invisible {
 
-#display welcome screen
-welcome
+welcome #display welcome screen
 sleep 2
 any_key("Press any key to continue..")
 print @cursor.clear_lines(2, :up)
-# print @cursor.up(1)
-# print @cursor.down(1)
+
+}
+
 check_username
+
+print @cursor.clear_lines(4, :up) #clear lines
+any_key("READY? hit any key..")
+print @cursor.down(1)
+print @cursor.clear_lines(4, :up)
 
 #run quiz questions
 quiz_loop
@@ -34,5 +39,5 @@ quiz_loop
 #show score
 get_score
 
-}
+
 
