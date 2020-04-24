@@ -140,6 +140,12 @@ def get_score
 
 end
 
+def quiz_loop
+
+
+
+
+end
 
 
 
