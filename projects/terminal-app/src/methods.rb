@@ -30,10 +30,9 @@ end
 #welcome message 
 def welcome
   clear
-  slow("welcome to", 0.2)
-  sleep 1
+  slow("welcome to", 0.08)
+  sleep 0.5
   print "\n"
-  # slow(". . .", 0.2)
   clear
   title
 end
@@ -51,16 +50,17 @@ def check_username
 
   while loop
     prompt = TTY::Prompt.new
-    user_input = prompt.ask('Please enter your username (letters only): ') do |q|
+    user_input = prompt.ask('Please enter your username: ') do |q|
       q.required true
-      q.validate /[a-zA-Z]/    #letters only
+      q.validate(/^[a-zA-Z]+$/, 'letters only')    #letters only
       q.modify :remove, :capitalize    #remove whitespace & capitalize
+      # q.validate(/[A-Za-z0-9]/, 'Letters and numbers only')    #letters and numbers only
     end
 
     print @cursor.clear_lines(2, :up)
     puts "Welcome #{user_input.colorize(:cyan)}!"
     puts "\n"
-    
+    sleep 1.5
     choices = %w(yes no exit)
     confirm = prompt.select('Is this username correct?', choices)
 
@@ -85,13 +85,6 @@ def exit_app
 end
 
 
-#give user the score
-def get_score
-  clear
-  puts "you scored #{@score} out of 5!"
-end
-
-
 def quiz_loop
 
   #ask up to 5 questions
@@ -101,35 +94,65 @@ def quiz_loop
     #add method to insert faker comment?
   end
 
-  any_key("Nice!\nPress any key to view your score!") 
+  any_key("Press any key to view your score!") 
 
 end
 
 
-def ask_question(num)
+def ask_question(question_index)
   
   #create tty-prompt instance
-  prompt = TTY::Prompt.new
+  question_ask = TTY::Prompt.new
   
   #ask the question
-  user_answer = prompt.select("#{@questions.prompts[@question_index]}", @questions.incorrect_answers[@question_index].push(@questions.correct_answers[@question_index]).shuffle)
+  user_answer = question_ask.select("#{@questions.prompts[@question_index]}", @questions.incorrect_answers[@question_index].push(@questions.correct_answers[@question_index]).shuffle)
   #keep score
-  if user_answer = @questions.correct_answers[@question_index]
-    print @cursor.clear_lines(3, :up)
-    puts "#{Faker::Quote.robin.colorize(:cyan)}!\n" 
-    sleep 0.5
-    print @cursor.clear_lines(3, :up)
-    print @cursor.down(2)
-    @score += 1
+  if user_answer != @questions.correct_answers[@question_index]
+    # p @score
+    add_to_score((@question_index), user_answer, 0)
+    p @score
+    sleep 3
+    print @cursor.clear_lines(4, :up)
+    print @cursor.down(1)
+    # print "#{Faker::Quote.robin.colorize(:cyan)} !" 
+    # sleep 1
+    # print @cursor.clear_lines(5, :up)
+    # print @cursor.down(2)
     # prog_bar
     # any_key("\nhit spacebar to continue..")
   else 
-    print @cursor.clear_lines(3, :up)
-    puts "#{Faker::Quote.robin.colorize(:cyan)}!" 
-    sleep 0.5
-    print @cursor.clear_lines(3, :up)
-    print @cursor.down(2)
+    # p @score
+    add_to_score(@question_index, user_answer, 1)
+    p @score
+    # @score[question_index + 1] += 1
+    sleep 3
+    print @cursor.clear_lines(4, :up)
+    print @cursor.down(1)
+    # print "#{Faker::Quote.robin.colorize(:cyan)} !" 
+    # sleep 1
+    # print @cursor.clear_lines(5, :up)
+    # @score = @score
+    # print @cursor.down(2)
     # prog_bar
     # any_key("\nhit spacebar to continue..")
   end
+end
+
+def add_to_score(key, value, num)
+
+  @score["Q#{key + 1}"] = "#{value}"
+  @score[:score] += num
+
+end
+
+#show user the score
+def print_score
+
+  puts "You scored #{@score[:score]} out of #{@question_index}"
+
+end
+
+def score_table
+
+
 end

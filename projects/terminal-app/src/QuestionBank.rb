@@ -6,7 +6,7 @@ class QuestionBank
 
   def initialize
     
-    url = "https://opentdb.com/api.php?amount=5&category=22&difficulty=easy&type=multiple"
+    url = "https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple"
     response = HTTParty.get(url)
 
     #create instance array of question prompts

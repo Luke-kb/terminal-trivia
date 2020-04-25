@@ -1,5 +1,6 @@
 require 'tty-prompt'
 require 'tty-cursor'
+require 'tty-box'
 require 'tty-progressbar'
 require 'tty-box'
 require 'artii'
@@ -7,9 +8,9 @@ require 'colorize'
 require 'faker'
 require_relative './QuestionBank.rb'
 require_relative './methods.rb'
-# require_relative './Score.rb' #not required atm
+# require_relative './Score.rb'
 
-@score = 0
+@score = {score: 0}
 @username = ""
 @question_index = 0
 
@@ -38,8 +39,10 @@ print @cursor.down(1)
 #run quiz questions
 quiz_loop
 
+print @cursor.clear_lines(2, :up)
+
 #show score
-get_score
+print_score
 
 
 
