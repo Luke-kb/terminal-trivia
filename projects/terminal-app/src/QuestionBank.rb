@@ -6,8 +6,8 @@ class QuestionBank
 
   def initialize
     
-    url = "https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=multiple"
-    response = HTTParty.get(url)
+    @url = "https://opentdb.com/api.php?amount=5&category=18&difficulty=hard&type=multiple"
+    response = HTTParty.get(@url)
 
     #create instance array of question prompts
     @prompts = [
@@ -46,7 +46,8 @@ class QuestionBank
     coder = HTMLEntities.new
     @prompts = @prompts.map {|item| coder.decode(item)}
     @correct_answers = @correct_answers.map {|item| coder.decode(item)}
-    
+    @incorrect_answers = @incorrect_answers.map {|row| row.map {|item| coder.decode(item)}} 
+
     # @incorrect_answers = @incorrect_answers.map {|item| coder.decode(item)} 
     #undefined method `push' for "[\\"512\\", \\"1024\\", \\"500\\"]":String (NoMethodError)
 
