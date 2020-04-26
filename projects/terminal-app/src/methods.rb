@@ -87,6 +87,8 @@ def welcome
   sleep 0.5
   clear
   title
+  sleep 1
+  any_key("Press any key to continue..")
 end
 
 #press any key to continue prompt
@@ -121,10 +123,8 @@ def username
     when "Yes"
       clear
       @username = user_input.upcase
-      print @cursor.down(1)
       puts "Welcome #{@username}!"
       sleep 1.5
-      any_key("\nREADY? (hit spacebar to begin)")
       clear      
       loop = false
     when "No"
@@ -144,11 +144,15 @@ def exit_app
 end
 
 
-def quiz_loop
+def quiz
   
-  #create QuestionBank instance
-  questions = QuestionBank.new
+  questions = QuestionBank.new   #create QuestionBank instance
 
+  puts slow("\n#{questions.q_amount} Questions, Multiple choice.", 0.2)
+  sleep 1
+  any_key("READY? (hit spacebar to begin)")
+  clear
+  print @cursor.down(1)
   #create Score instance
   score = Score.new
   
