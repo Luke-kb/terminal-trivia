@@ -1,15 +1,10 @@
 class Score
-  attr_accessor :score
+  attr_accessor :count, :results
 
   def initialize
-  @score = {}
-  
-  end
+    @results = []
+    @count = 0
 
-  def add_to_score(key, value)
-    self
-    @score["#{key}"] = "#{value}"
-    
   end
-
 end
+

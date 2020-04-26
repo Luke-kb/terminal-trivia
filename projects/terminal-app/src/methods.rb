@@ -1,3 +1,5 @@
+# require_relative './QuestionBank.rb'
+
 #clears the terminal
 def clear
 system 'clear'
@@ -108,7 +110,7 @@ def username
     end
 
     print @cursor.clear_lines(2, :up)
-    puts "You entered: #{user_input.upcase.colorize(:green)}"
+    puts "You entered: #{user_input.upcase.colorize(:cyan)}"
     sleep 0.8
     print @cursor.down(1)
 
@@ -118,7 +120,7 @@ def username
     case confirm
     when "Yes"
       clear
-      @username = user_input
+      @username = user_input.upcase
       print @cursor.down(1)
       puts "Welcome #{@username}!"
       sleep 1.5
@@ -143,67 +145,56 @@ end
 
 
 def quiz_loop
+  
+  #create QuestionBank instance
+  questions = QuestionBank.new
 
-  #ask up to 5 questions
-  while @question_index < 5
-    ask_question(@question_index)
-    @question_index += 1
-    #add method to insert faker comment?
+  #create Score instance
+  score = Score.new
+  
+  #create tty-prompt instance
+  ask_prompt = TTY::Prompt.new(active_color: :cyan)   
+   
+  #loop begins
+  while questions.q_index < questions.q_amount
+
+  #ask the question
+  user_answer = ask_prompt.select("#{questions.prompts[questions.q_index]}", questions.incorrect_answers[questions.q_index].push(questions.correct_answers[questions.q_index]).shuffle)
+    
+    #keep score
+    if user_answer != questions.correct_answers[questions.q_index]
+      score.count += 0
+      # add_to_score((questions.q_index), user_answer, 0)
+      # add_to_score((@question_index), user_answer, 0)
+      score.results << [questions.prompts[questions.q_index]]
+      score.results << ["#{user_answer.colorize(:red)} => #{questions.correct_answers[questions.q_index]}"]
+      clear
+    else 
+      score.count += 1
+      # add_to_score(@question_index, user_answer, 1)
+      score.results << [questions.prompts[questions.q_index]]
+      score.results << ["#{user_answer}  :-)".colorize(:green)]
+      clear
+    end
+    questions.q_index += 1
   end
-
-  # any_key("Press any key to view your score!") 
   clear
   puts "processing your score.."
   prog_bar(8)
   sleep 0.5
-end
 
-#ask question method
-def ask_question(question_index)
-  
-  question_ask = TTY::Prompt.new(active_color: :cyan)   #create tty-prompt instance
-
-  #ask the question
-  user_answer = question_ask.select("#{@questions.prompts[@question_index]}", @questions.incorrect_answers[@question_index].push(@questions.correct_answers[@question_index]).shuffle)
-  
-  #keep score
-  if user_answer != @questions.correct_answers[@question_index]
-    add_to_score((@question_index), user_answer, 0)
-    @rows << [@questions.prompts[@question_index]]
-    @rows << ["#{user_answer.colorize(:red)} => #{@questions.correct_answers[@question_index]}"]
-    clear
-  else 
-    add_to_score(@question_index, user_answer, 1)
-    @rows << [@questions.prompts[@question_index]]
-    @rows << ["#{user_answer}  :-)".colorize(:green)]
-    clear
-  end
-end
-
-#add to score once each question is answered
-def add_to_score(key, value, num)
-
-  @score["Q#{key + 1}"] = "#{value}"
-  @score[:score] += num
-
-end
-
-#show user the score
-def print_score_and_table
+  #print score and results
   clear
   system("artii 'You scored  :' | lolcat -a -d 8 -S 0")
-  system("artii ' #{@score[:score]} out of #{@question_index}' | lolcat -a -d 6 -S 0")
+  system("artii ' #{score.count} out of #{questions.q_amount}' | lolcat -a -d 6 -S 0")
   sleep 0.2
   clear
-
   print @cursor.down(1)
-
-  @rows.each do |item| 
+  score.results.each do |item| 
     puts item
     puts "\n"
     sleep 0.7
   end
-
 end
 
 
