@@ -1,11 +1,5 @@
-Write TWO status updates on your application. You must write a status update when:
-- you significantly change a feature or your implementation plan at any point
-
-- encounter a significant issue, challenge or roadblock
-- are halfway through implementing the features
-- prior to / after testing the application
-
-
+DEVELOPMENT LOG
+TERMINAL TRIVIA
 -----------------
 
 Wednesday 22/4
@@ -23,6 +17,12 @@ Couldn't get a table to work for the results. Tried Terminal-table, tabulo, tty-
 
 Saturday 25/4
 
-Refactored the code in QuestionBank.rb and Score.rb to initialize the score results and count as well as question amount and question index. Made a long quiz loop method to call in the app.rb rather than several smaller methods.
+Refactored the code in QuestionBank.rb and Score.rb to initialize the score results and count as well as question amount and question index. Doing this temporarily broke the score results so solution was to to expand the quiz method (called in app.rb) rather than joining smaller methods together.
 
 Sunday 26/4
+
+- 
+
+Monday 27/4
+
+- 
