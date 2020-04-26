@@ -3,7 +3,7 @@ def clear
 system 'clear'
 end
 
-#progressbar
+# progressbar (tty)
 def prog_bar(num)
   bar = TTY::ProgressBar.new("[:bar]", total: num)
   num.times do
@@ -12,7 +12,25 @@ def prog_bar(num)
   end
 end
 
-#disappearing effect
+#cli-ui progress bar
+def blue_prog_bar
+  CLI::UI::Progress.progress do |bar|
+    100.times do
+      bar.tick
+    end
+  end
+
+end
+
+#set difficulty to god level ARGV
+def process_argv(option)
+  case option
+  when "-g"
+    @url = "https://opentdb.com/api.php?amount=5&category=17&difficulty=hard&type=multiple"
+  end
+end
+
+#disappearing text effect
 def clear_line_slowly(num)
   x = 0
  
@@ -51,6 +69,12 @@ end
 def welcome
   clear
   print @cursor.down(5)
+  print "5"
+  sleep 0.5
+  print @cursor.clear_line
+  print "4"
+  sleep 0.5
+  print @cursor.clear_line
   print "3"
   sleep 0.5
   print @cursor.clear_line
@@ -70,34 +94,40 @@ def any_key(message)
 end
 
 #username input & validation
-def check_username
+def username
   
   loop = true
 
   while loop
-    prompt = TTY::Prompt.new
-    user_input = prompt.ask('Enter your username:') do |q|
+    prompt = TTY::Prompt.new(active_color: :cyan)
+    user_input = prompt.ask('Enter a username:') do |q|
       q.required true
-      q.validate(/^[a-zA-Z]+$/, 'letters only')    #letters only
+      q.validate(/[A-Za-z0-9]/, 'alphanumeric characters only')    #letters and numbers only
       q.modify :remove, :capitalize    #remove whitespace & capitalize
-      # q.validate(/[A-Za-z0-9]/, 'Letters and numbers only')    #letters and numbers only
+      # q.validate(/^[a-zA-Z]+$/, 'letters only')    #letters only
     end
 
     print @cursor.clear_lines(2, :up)
-    simple_spin(1.5, "pulse_3")
-    print @cursor.clear_lines(2, :up)
-    puts "Welcome #{user_input.upcase.colorize(:cyan)}!"
+    puts "You entered: #{user_input.upcase.colorize(:green)}"
+    sleep 0.8
     print @cursor.down(1)
-    choices = %w(yes no exit)
+
+    choices = %w(Yes No Exit)
     confirm = prompt.select('Is this username correct?', choices)
 
     case confirm
-    when "yes"
+    when "Yes"
+      clear
       @username = user_input
+      print @cursor.down(1)
+      puts "Welcome #{@username}!"
+      sleep 1.5
+      any_key("\nREADY? (hit spacebar to begin)")
+      clear      
       loop = false
-    when "no"
+    when "No"
       print @cursor.clear_lines(4, :up)
-    when "exit"
+    when "Exit"
       exit_app
       loop = false
     end
@@ -122,15 +152,16 @@ def quiz_loop
   end
 
   # any_key("Press any key to view your score!") 
-  puts "processing scores.."
+  clear
+  puts "processing your score.."
   prog_bar(8)
-  print @cursor.clear_lines(2, :up)
+  sleep 0.5
 end
 
 #ask question method
 def ask_question(question_index)
   
-  question_ask = TTY::Prompt.new   #create tty-prompt instance
+  question_ask = TTY::Prompt.new(active_color: :cyan)   #create tty-prompt instance
 
   #ask the question
   user_answer = question_ask.select("#{@questions.prompts[@question_index]}", @questions.incorrect_answers[@question_index].push(@questions.correct_answers[@question_index]).shuffle)
@@ -140,18 +171,13 @@ def ask_question(question_index)
     add_to_score((@question_index), user_answer, 0)
     @rows << [@questions.prompts[@question_index]]
     @rows << ["#{user_answer.colorize(:red)} => #{@questions.correct_answers[@question_index]}"]
-    # sleep 1
-    print @cursor.clear_lines(2, :up)
-    # print @cursor.down(1)
+    clear
   else 
     add_to_score(@question_index, user_answer, 1)
     @rows << [@questions.prompts[@question_index]]
-    @rows << ["#{user_answer.colorize(:green)}"]
-    # sleep 0.5
-    print @cursor.clear_lines(2, :up)
-    # print @cursor.down(1)
+    @rows << ["#{user_answer}  :-)".colorize(:green)]
+    clear
   end
-  # p @score
 end
 
 #add to score once each question is answered
@@ -163,26 +189,35 @@ def add_to_score(key, value, num)
 end
 
 #show user the score
-def print_score
-  system("artii 'You scored #{@score[:score]} out of #{@question_index}' | lolcat -a -d 10 -S 0")
-  # system "You scored #{@score[:score]} out of #{@question_index}"
+def print_score_and_table
+  clear
+  system("artii 'You scored  :' | lolcat -a -d 8 -S 0")
+  system("artii ' #{@score[:score]} out of #{@question_index}' | lolcat -a -d 6 -S 0")
+  sleep 0.2
+  clear
+
+  print @cursor.down(1)
+
+  @rows.each do |item| 
+    puts item
+    puts "\n"
+    sleep 0.7
+  end
 
 end
 
-def score_table
-
-  table = Terminal::Table.new :rows => @rows, :title => "#{@username}'s results"
-  # table.style = {:all_separators => true}
-  puts table
-
-end
 
 #play again?
 def play_again
   clear
   prompt = TTY::Prompt.new
-  choices = %w(yep! exit)
+  choices = %w(Yep! Exit)
   confirm = prompt.select('Play again?', choices)
-
+  case confirm
+  when "Exit"
+    exit_app
+  when "Yep!"
+    puts "restart app.."
+  end
 end
 
