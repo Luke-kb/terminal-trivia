@@ -1,5 +1,3 @@
-# require_relative './QuestionBank.rb'
-
 #clears the terminal
 def clear
 system 'clear'
@@ -27,27 +25,19 @@ end
 #set difficulty to god level ARGV
 def process_argv(option)
   case option
-  when "-g"
-    @url = "https://opentdb.com/api.php?amount=5&category=17&difficulty=hard&type=multiple"
+  when "-g"  #god level
+    @url = "https://opentdb.com/api.php?amount=5&difficulty=hard&type=multiple"
   end
 end
 
 #disappearing text effect
-def clear_line_slowly(num)
+def clear_lines_slowly(num)
   x = 0
  
   while x < num
     print @cursor.clear_lines(2, :up)
     sleep 0.1
     x += 1
-  end
-end
-
-#simple spinner
-def simple_spin(seconds, spin_type)
-  spinner = TTY::Spinner.new(format: :"#{spin_type}", interval: 10)
-  spinner.run do |spinner|
-    sleep seconds
   end
 end
 
@@ -89,6 +79,7 @@ def welcome
   title
   sleep 1
   any_key("Press any key to continue..")
+  print @cursor.clear_lines(2, :up)
 end
 
 #press any key to continue prompt
@@ -138,26 +129,24 @@ end
 
 def exit_app
   clear
-  puts "BYE."
+  puts "Bye."
   sleep 2
+  clear
   exit    ####find out how to close terminal window
 end
-
 
 def quiz
   
   questions = QuestionBank.new   #create QuestionBank instance
 
-  puts slow("\n#{questions.q_amount} Questions, Multiple choice.", 0.2)
+  puts slow("\n#{questions.q_amount} questions, multiple choice.", 0.2)
   sleep 1
   any_key("READY? (hit spacebar to begin)")
   clear
-  print @cursor.down(1)
-  #create Score instance
-  score = Score.new
-  
-  #create tty-prompt instance
-  ask_prompt = TTY::Prompt.new(active_color: :cyan)   
+
+  score = Score.new     #create Score instance
+
+  ask_prompt = TTY::Prompt.new(active_color: :cyan)     #create tty-prompt instance
    
   #loop begins
   while questions.q_index < questions.q_amount
@@ -199,20 +188,22 @@ def quiz
     puts "\n"
     sleep 0.7
   end
+  any_key("\n\npress any key".colorize(:cyan))
+  clear_lines_slowly(28)
+  clear
 end
 
-
-#play again?
+#play again or exit
 def play_again
   clear
   prompt = TTY::Prompt.new
-  choices = %w(Yep! Exit)
+  choices = %w(Sure Exit)
   confirm = prompt.select('Play again?', choices)
   case confirm
   when "Exit"
     exit_app
-  when "Yep!"
-    puts "restart app.."
+  when "Sure"
+    reset
   end
 end
 

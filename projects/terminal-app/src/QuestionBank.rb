@@ -5,9 +5,9 @@ class QuestionBank
   attr_reader :prompts, :correct_answers, :incorrect_answers, :q_amount
   attr_accessor :q_index
 
-  def initialize
+  def initialize()
 
-    @url = "https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=multiple"
+    @url = "https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple"
     response = HTTParty.get(@url)
 
     #create instance array of question prompts
