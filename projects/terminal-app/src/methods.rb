@@ -36,7 +36,7 @@ def clear_lines_slowly(num)
  
   while x < num
     print @cursor.clear_lines(2, :up)
-    sleep 0.1
+    sleep 0.2
     x += 1
   end
 end
@@ -60,26 +60,52 @@ end
 #welcome message 
 def welcome
   clear
+  print @cursor.invisible {
+
   print @cursor.down(5)
+  print "10"
+  sleep 1.3
+  print @cursor.clear_line
+  print "9"
+  sleep 1.3
+  print @cursor.clear_line
+  print "8"
+  sleep 1.3
+  print @cursor.clear_line
+  print "IT'S".colorize(:blue)
+  sleep 1.3
+  print @cursor.clear_line
+  print "7"
+  sleep 1
+  print @cursor.clear_line
+  print "6"
+  sleep 0.8
+  print @cursor.clear_line
+  print "TIME".colorize(:blue)
+  sleep 0.8
+  print @cursor.clear_line
   print "5"
-  sleep 0.5
+  sleep 0.7
   print @cursor.clear_line
   print "4"
   sleep 0.5
   print @cursor.clear_line
+  print "FOR".colorize(:blue)
+  sleep 0.4
+  print @cursor.clear_line
   print "3"
-  sleep 0.5
+  sleep 0.4
   print @cursor.clear_line
   print "2"
-  sleep 0.5
+  sleep 0.4
   print @cursor.clear_line
   print "1"
-  sleep 0.5
+  sleep 0.3
   clear
   title
   sleep 1
   any_key("Press any key to continue..")
-  print @cursor.clear_lines(2, :up)
+  print @cursor.clear_lines(2, :up) }
 end
 
 #press any key to continue prompt
@@ -102,6 +128,7 @@ def username
       # q.validate(/^[a-zA-Z]+$/, 'letters only')    #letters only
     end
 
+    
     print @cursor.clear_lines(2, :up)
     puts "You entered: #{user_input.upcase.colorize(:cyan)}"
     sleep 0.8
@@ -112,11 +139,11 @@ def username
 
     case confirm
     when "Yes"
-      clear
       @username = user_input.upcase
+      clear
       puts "Welcome #{@username}!"
-      sleep 1.5
-      clear      
+      sleep 1.3 
+      print @cursor.clear_line     
       loop = false
     when "No"
       print @cursor.clear_lines(4, :up)
@@ -132,16 +159,16 @@ def exit_app
   puts "Bye."
   sleep 2
   clear
-  exit    ####find out how to close terminal window
+  exit    ####find out how to close terminal window?
 end
 
 def quiz
   
   questions = QuestionBank.new   #create QuestionBank instance
 
-  puts slow("\n#{questions.q_amount} questions, multiple choice.", 0.2)
+  puts slow("\n#{questions.q_amount} questions. general knowledge. multiple choice.", 0.2)
   sleep 1
-  any_key("READY? (hit spacebar to begin)")
+  any_key("READY?\n\n(hit spacebar to begin)")
   clear
 
   score = Score.new     #create Score instance
@@ -188,7 +215,11 @@ def quiz
     puts "\n"
     sleep 0.7
   end
-  any_key("\n\npress any key".colorize(:cyan))
+  if score.count < questions.q_amount
+    any_key("\n\nBetter luck next time..   (hit spacebar)".colorize(:cyan))
+  else 
+    any_key("\n\nYOU ARE AWESOME!   (hit spacebar)")
+  end
   clear_lines_slowly(28)
   clear
 end
