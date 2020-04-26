@@ -19,3 +19,10 @@ For a few days, the HTML entities (eg &quot?) was bothering me as I couldn't fin
 
 Friday 24/4
 
+Couldn't get a table to work for the results. Tried Terminal-table, tabulo, tty-table. All had issues with either text wrapping or layout that was frustrating. Decided to forget the table, instead using puts, but still pushing the results to an array during the quiz loop.
+
+Saturday 25/4
+
+Refactored the code in QuestionBank.rb and Score.rb to initialize the score results and count as well as question amount and question index. Made a long quiz loop method to call in the app.rb rather than several smaller methods.
+
+Sunday 26/4
