@@ -4,7 +4,6 @@ class Score
   def initialize
     @results = []
     @count = 0
-
   end
 end
 

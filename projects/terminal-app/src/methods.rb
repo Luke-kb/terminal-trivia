@@ -12,10 +12,10 @@ def prog_bar(num)
   end
 end
 
-#set difficulty to 'god' level using ARGV
+#set difficulty to 'GOD' level using ARGV
 def process_argv(option)
   case option
-  when "-g"  #god level
+  when "-g" 
     @url = "https://opentdb.com/api.php?amount=&difficulty=hard&type=multiple"
   end
 end
@@ -49,7 +49,6 @@ end
 def welcome
   clear
   print @cursor.invisible {
-
   print "IT'S".colorize(:blue)
   sleep 1.3
   print @cursor.clear_line
@@ -80,9 +79,8 @@ def username
     prompt = TTY::Prompt.new(active_color: :cyan)
     user_input = prompt.ask('Enter a username:') do |q|
       q.required true
-      q.validate(/[A-Za-z0-9]/, 'alphanumeric characters only')    #letters and numbers only
+      q.validate(/[A-Za-z0-9]/, 'letter or numbers only')    #letters and numbers only
       q.modify :remove, :capitalize    #remove whitespace & capitalize
-      # q.validate(/^[a-zA-Z]+$/, 'letters only')    #letters only
     end
 
     
@@ -91,6 +89,7 @@ def username
     sleep 0.3
     print @cursor.down(1)
 
+    #prompt to check if username is correct
     choices = %w(Yes No Exit)
     confirm = prompt.select('Is this username correct?', choices)
 

@@ -7,12 +7,19 @@ class QuestionBank
 
   def initialize(url = nil)
 
-    # @url = url
+    #if command line argument not given, use default url
     if !url
       url = "https://opentdb.com/api.php?amount=6&difficulty=easy&type=multiple"
     end
+
+    #error handling if internet not connected 
+    begin
       response = HTTParty.get(url)
-    
+    rescue SocketError
+      puts "SocketError! Check internet connection!"
+    end
+
+    #create difficulty instance variable      
     @difficulty = response.parsed_response["results"][0]["difficulty"].upcase
 
     #create instance array of question prompts
@@ -31,12 +38,12 @@ class QuestionBank
       @q_amount = @prompts.length
       @q_index = 0
 
-    #remove HTMLEntities
-    coder = HTMLEntities.new
-    
-    @prompts = @prompts.map {|item| coder.decode(item)}
-    @correct_answers = @correct_answers.map {|item| coder.decode(item)}
-    @incorrect_answers = @incorrect_answers.map {|row| row.map {|item| coder.decode(item)}} 
+    #remove HTMLEntities from array variables
+    html = HTMLEntities.new 
+
+    @prompts = @prompts.map {|item| html.decode(item)}
+    @correct_answers = @correct_answers.map {|item| html.decode(item)}
+    @incorrect_answers = @incorrect_answers.map {|row| row.map {|item| html.decode(item)}} 
 
   end
 
