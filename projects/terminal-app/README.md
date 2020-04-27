@@ -1,59 +1,85 @@
-Countries of the World Trivia Game
+# Terminal Trivia
 
-Software Development Plan
+### Software Development Plan
 
---Statement of Purpose:
+#### Statement of Purpose
 
-Countries of the World is a trivia game testing users' knowledge of the countries of the world. 
-Designed for fun, CotW will expand your knowledge of arguably unimportant details about different places. 
-People most likely to play this app are gamers, trivia/quiz-lovers or anyone looking to do something other than what they were previously doing.
+Terminal Trivia is a simple trivia game that utilizes the Open Trivia Database API. User's are asked a number of questions with multiple choice answers that test their general knowledge over a variety of categories. It was built to entertain and largely to develop ruby programming skills The people most likely to play this app are gamers, trivia/quiz-lovers or anyone looking to pass some time in a leisurely fashion.
 
-- Installation:
+### Features
 
-    1. Clone the repo: git clone [url]
-    2. Change directory to the project folder [cd etc]
-    3. Run bundle command to install necessary gems [bundle etc]
-    4. Run [ruby file_name.rb]
+#### Core Features
 
---Features:
+- Welcome user with title graphic (using artii gem)
+- Set a validated username from user input, once inputted provide option to re-input or exit the app.
+- Generate 6 random general knowledge trivia questions from the [Open Trivia Database](https://opentdb.com/) with multiple choice answer input (using tty-prompt gem)
+- Present total score (using artii/lolcat gems)
+- 'God' setting: 15 questions with difficulty level at 'HARD'
 
-  CORE FEATURES
+#### Extra features to add in the future
 
-- Game Title graphic (using Figlet/Lolcat)
-- Main menu list prompts user to select 'Start a new game' or 'About' and press [Enter] (using tty-prompt)
-- Randomly generated questions prompting user to answer using multiple choice selection (using countries 
-  gem & tty-prompt)
-- once all Questions are answered, user is provided with their final score and a list of correct/incorrect answers. 
-  (using command-line-reporter https://github.com/wbailey/command_line_reporter or terminal-table https://github.com/tj/terminal-table or tty-table)
+- Give a countdown timer for each question to be answered.
+- Show a progress bar indicating how far the user is through the question list
+- Save scores to file and load in when loading app
 
-  NICE TO HAVE
+### User Interaction and User Experience:
 
-- cool terminal spinner on selected answer before it has been submitted (tty-spinner)
-- provide supportive message to user between questions
-- a progress bar indicating how far the user is through the 10 questions (tty-progressbar gem)
-- Option to view scoreboard at main menu
-- option for users score to be saved and added to scoreboard in a descending list.
-
---UI and UX:
-
-  User is first presented with a game title graphic and the main menu and prompted to choose an action from a list using enter and arrow keys:
-    
-    -Start a new game 
-    -About 
-    -Quit 
+  User is first presented with a game title graphic and a prompt to press any key to continue.
   
-  When starting a new game, user is prompted to enter their username and then press enter.
-  Users name is displayed with a welcome greeting and is then prompted to re-enter their name or continue to the game. (nb: Username can only consist of letters. if numbers or special characters are inputted, user will receive a message to re-enter their username.)
-  Questions are asked one at a time until all questions are answered. 
-  Once completed, the correct/incorrect answers and users' total score are presented with congratulatory message.
-  User is prompted to either play again or return to main menu.
+  ![title](/docs/title.png)
+  
+  User is then prompted to input their username, which is checked using [tty-prompt](https://github.com/piotrmurach/tty-prompt)'s built-in regex validation method. Once validated, user is asked whether username is correct. If 'Yes' - they continue to the game. If 'No' - they are prompted to enter a username again. Alternatively, they can choose 'Exit' and quit the app.
 
---Control Flow Diagram (see docs)
+  ![username validation](/docs/username.png)
+
+  Selecting Yes takes the user to the pre-game message, proving information on how many questions, category & difficulty level. User is prompted to hit [spacebar] to begin.
+
+  ![ready?](/docs/ready.png)
+
+  Random questions are generated and presented one-at-a-time using [tty-prompt](https://github.com/piotrmurach/tty-prompt)'s select method. User is prompted to navigate using arrow keys and Enter to select answer.
+
+  ![question](/docs/prompt.png)
+
+  Once the last question has been answered a progress bar appears indicating the processing of the score results.
+
+  ![processing-score](docs/processing-score.png)
+
+  Next a score graphic is displayed using (artii and lolcat gems) followed by a printout of each question and the users answer and the correct answer if the user got it wrong
+
+  ![score](/docs/score1.png)
+  ![results](/docs/results.png)
+
+  After the results have been printed, user is prompted to press any key and and the results are cleared line by line from the bottom to the top before a final prompt asking user if they want to play again.
+  If 'Yes' - user is taken back to the very beginning. 
+  If 'Exit' - app terminates and a 'Bye' graphic is displayed.
+
+  ![bye](/docs/bye1.png)
+
+### Control Flow Diagram 
+![control flow diagram](/docs/control-flow.png)
+
+### Implementation Plan
+
+Implementation was mapped out using a [Trello board](https://trello.com/b/YQG2urgj/triviaterminalapp). 
+Work was separated into lists: Implementation, Backlog, Testing and Done.
+Cards in each list were given priority colours (Red 1, Orange 2, Yellow 3) and were given time and date deadlines. As items were completed, cards were moved into the Done list.
+
+![trello](/docs/trello3.png)
+
+## Testing
 
 
---Implementation Plan (see Trello screenshots)
-  link to Trello board https://trello.com/b/YQG2urgj/triviaterminalapp
 
+## Installation
 
---Status Updates
-  (tba)
+    1. Clone the repo: git clone [https://github.com/Luke-kb/FLEXTRACK/tree/master/projects/terminal-app]
+    2. Change directory to the project folder [cd etc]
+    3. Run the run-app.sh shell script to install the dependencies
+    4. Run [ruby app.rb]
+   
+## Notes
+- [Open Trivia Database](https://opentdb.com/)
+- [artii]()
+- [lolcat]()
+- [tty-prompt]()
+- [tty-progressbar]()
