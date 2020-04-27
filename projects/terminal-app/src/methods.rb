@@ -12,16 +12,6 @@ def prog_bar(num)
   end
 end
 
-#cli-ui progress bar
-def blue_prog_bar
-  CLI::UI::Progress.progress do |bar|
-    100.times do
-      bar.tick
-    end
-  end
-
-end
-
 #set difficulty to 'god' level using ARGV
 def process_argv(option)
   case option
@@ -163,11 +153,16 @@ end
 
 def quiz
   
-  questions = QuestionBank.new   #create QuestionBank instance
+  if @god_mode == "-g"
+    url = "https://opentdb.com/api.php?amount=15&difficulty=hard&type=multiple" 
+    @difficulty = "GOD"
+  end
 
-  puts slow("\n#{questions.q_amount} questions. general knowledge. multiple choice.", 0.2)
+  questions = QuestionBank.new(url)   #create QuestionBank instance
+  puts slow("\n#{questions.q_amount} questions. multiple choice. general knowledge. Level: #{questions.difficulty}.", 0.2)
   sleep 1
   any_key("READY?\n\n(hit spacebar to begin)")
+  p questions
   clear
 
   score = Score.new     #create Score instance
@@ -215,7 +210,7 @@ def quiz
     sleep 0.7
   end
   if score.count < questions.q_amount
-    any_key("\n\nBetter luck next time..   (hit spacebar)".colorize(:cyan))
+    any_key("\n\nBetter luck next time!   (hit spacebar)".colorize(:cyan))
   else 
     any_key("\n\nYOU ARE AWESOME!   (hit spacebar)")
   end

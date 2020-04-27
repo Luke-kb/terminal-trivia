@@ -2,15 +2,19 @@ require 'httparty'
 require 'htmlentities'
 
 class QuestionBank
-  attr_reader :prompts, :correct_answers, :incorrect_answers, :q_amount, :url
+  attr_reader :prompts, :correct_answers, :incorrect_answers, :q_amount, :difficulty
   attr_accessor :q_index
 
   def initialize(url = nil)
 
-    @url = url
-    url = "https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple"
-    response = HTTParty.get(url)
+    # @url = url
+    if !url
+      url = "https://opentdb.com/api.php?amount=6&difficulty=easy&type=multiple"
+    end
+      response = HTTParty.get(url)
     
+    @difficulty = response.parsed_response["results"][0]["difficulty"].upcase
+
     #create instance array of question prompts
     @prompts = 
       response.parsed_response["results"].map { 

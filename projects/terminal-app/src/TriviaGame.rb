@@ -12,6 +12,8 @@ class TriviaGame
 
   def setup
 
+    @god_mode = ARGV[0]
+
     @username = ""    #set @username variable
 
     @cursor = TTY::Cursor   #set @cursor variable
