@@ -22,21 +22,20 @@ def blue_prog_bar
 
 end
 
-#set difficulty to god level ARGV
+#set difficulty to 'god' level using ARGV
 def process_argv(option)
   case option
   when "-g"  #god level
-    @url = "https://opentdb.com/api.php?amount=5&difficulty=hard&type=multiple"
+    @url = "https://opentdb.com/api.php?amount=&difficulty=hard&type=multiple"
   end
 end
 
 #disappearing text effect
 def clear_lines_slowly(num)
   x = 0
- 
   while x < num
     print @cursor.clear_lines(2, :up)
-    sleep 0.2
+    sleep 0.09
     x += 1
   end
 end
@@ -131,7 +130,7 @@ def username
     
     print @cursor.clear_lines(2, :up)
     puts "You entered: #{user_input.upcase.colorize(:cyan)}"
-    sleep 0.8
+    sleep 0.3
     print @cursor.down(1)
 
     choices = %w(Yes No Exit)

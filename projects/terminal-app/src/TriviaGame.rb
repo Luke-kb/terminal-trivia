@@ -1,7 +1,3 @@
-# require_relative './QuestionBank.rb'
-# require_relative './methods.rb'
-# require_relative './Score.rb'
-
 class TriviaGame
 
   def initialize
