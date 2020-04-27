@@ -1,5 +1,5 @@
 # Terminal Trivia
-- [Link to repo](https://github.com/Luke-kb/FLEXTRACK/tree/master/projects/terminal-app)
+- [Link to repo](https://github.com/Luke-kb/FLEXTRACK)
 ### Software Development Plan
 
 #### Statement of Purpose
@@ -20,7 +20,7 @@ For detailed installation instructions see the Installation section of this READ
   Six Random general knowledge trivia questions from the [Open Trivia Database](https://opentdb.com/) are pulled using the provided API (and with help from HTTParty). tty-prompt provides simple question and answer navigation and multiple choice answer input. Default API call request 6 general knowledge questions in the 'EASY' difficulty level. This info is presented to the user just prior to answering the first question.
   
 ##### Print Score and Results
-  Once all question been answers, score is printed first in big rainbow graphic (using artii and lolcat gems). Score is calculated as each answer is given and pushed into an array to be printed out in the form of score results. A bit of font colouring (using colorize) is used to make it a little more readable
+  Once all question been answers, score is printed first in big rainbow graphic (using artii and lolcat gems). Score is calculated as each answer is given and pushed into an array to be printed out in the form of score results. Assisted by HTMLEntities gem to decode the html entities present in the data (eg, &quot? etc.) A bit of font colouring (using colorize gem) was used to make it more readable and fun.
   
   #####  GOD setting
   Using the built in ARGVs in ruby (aka command line variables) the user can initiate GOD mode: 15 general knowledge multiple choice questions with difficulty level set at 'HARD'. To do so, en run app from command line and include the `-g` flag: `ruby app.rb -g`
@@ -35,19 +35,19 @@ For detailed installation instructions see the Installation section of this READ
 
   User is first presented with a game title graphic and a prompt to press any key to continue.
   
-  ![title](/docs/title.png)
+  ![title](docs/title.png)
   
   User is then prompted to input their username, which is checked using [tty-prompt](https://github.com/piotrmurach/tty-prompt)'s built-in regex validation method. Once validated, user is asked whether username is correct. If 'Yes' - they continue to the game. If 'No' - they are prompted to enter a username again. Alternatively, they can choose 'Exit' and quit the app.
 
-  ![username validation](/docs/username.png)
+  ![username validation](docs/username.png)
 
   Selecting Yes takes the user to the pre-game message, providing how many questions, category & difficulty level. User is prompted to hit [spacebar] to begin.
 
-  ![ready?](/docs/ready.png)
+  ![ready?](docs/ready.png)
 
   Random questions are generated and presented one-at-a-time using [tty-prompt](https://github.com/piotrmurach/tty-prompt)'s select method. User is prompted to navigate using arrow keys and Enter to select answer.
 
-  ![question](/docs/prompt.png)
+  ![question](docs/prompt.png)
 
   Once the last question has been answered a progress bar appears indicating the processing of the score results.
 
@@ -55,17 +55,17 @@ For detailed installation instructions see the Installation section of this READ
 
   Next a score graphic is displayed using (artii and lolcat gems) followed by a printout of each question and the users answer and the correct answer if the user got it wrong (using colorize gem help indicate this).
 
-  ![score](/docs/score1.png)
-  ![results](/docs/results.png)
+  ![score](docs/score1.png)
+  ![results](docs/results.png)
 
   After the results have been printed, user is prompted to press any key and and the results are cleared line by line from the bottom to the top (using tty-cursor) before a final prompt asking user if they want to play again.
   If 'Yes' - user is taken back to the very beginning. 
   If 'Exit' - app terminates and a 'Bye' graphic is displayed.
 
-  ![bye](/docs/bye1.png)
+  ![bye](docs/bye1.png)
 
 ### Control Flow Diagram 
-![control flow diagram](/docs/control-flow.png)
+![control flow diagram](docs/control-flow.png)
 
 ### Implementation Plan
 
@@ -73,18 +73,15 @@ Implementation was mapped out using a [Trello board](https://trello.com/b/YQG2ur
 Work was separated into lists: Implementation, Backlog, Testing and Done.
 Cards in each list were given priority colours (Red 1, Orange 2, Yellow 3) and were given time and date deadlines. As items were completed, cards were moved into the Done list.
 
-![trello](/docs/trello3.png)
+![trello](docs/trello3.png)
 
 ### Testing
 
-![testing](/docs/testing1.png)
+![testing](docs/testing1.png)
 
 ### Installation
 
-  1. Clone the repo: `git clone https://github.com/Luke-kb/FLEXTRACK/tree/master/projects/terminal-app`
-  2. Change directory to the project folder `cd [path to project folder]`
-  3. Run the run-app.sh shell script to install the dependencies
-  4. Run `ruby app.rb`
+Please see Help.md
    
 #### Links
 - [Open Trivia Database](https://opentdb.com/)
@@ -94,3 +91,5 @@ Cards in each list were given priority colours (Red 1, Orange 2, Yellow 3) and w
 - [tty-progressbar](https://github.com/piotrmurach/tty-progressbar)
 - [tty-cursor](https://github.com/piotrmurach/tty-cursor)
 - [colorize](https://github.com/fazibear/colorize)
+- [HTTParty](https://github.com/jnunemaker/httparty)
+- [HTMLEntities](https://github.com/threedaymonk/htmlentities)
