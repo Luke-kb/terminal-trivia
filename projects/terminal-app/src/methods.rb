@@ -16,7 +16,7 @@ end
 def process_argv(option)
   case option
   when "-g" 
-    @url = "https://opentdb.com/api.php?amount=&difficulty=hard&type=multiple"
+    @url = "https://opentdb.com/api.php?amount=15&difficulty=hard&type=multiple"
   end
 end
 
