@@ -79,11 +79,11 @@ def username
     prompt = TTY::Prompt.new(active_color: :cyan)
     user_input = prompt.ask('Enter a username:') do |q|
       q.required true
-      q.validate(/[A-Za-z0-9]/, 'letter or numbers only')    #letters and numbers only
+      q.validate(/[A-Za-z0-9]/, 'letters or numbers only')    #letters and numbers only
       q.modify :remove, :capitalize    #remove whitespace & capitalize
     end
 
-    
+    #return user input
     print @cursor.clear_lines(2, :up)
     puts "You entered: #{user_input.upcase.colorize(:cyan)}"
     sleep 0.3
@@ -91,7 +91,7 @@ def username
 
     #prompt to check if username is correct
     choices = %w(Yes No Exit)
-    confirm = prompt.select('Is this username correct?', choices)
+    confirm = prompt.select('Is this correct?', choices)
 
     case confirm
     when "Yes"
@@ -114,11 +114,12 @@ def exit_app
   clear
   bye = Artii::Base.new
   puts bye.asciify('Bye!')
-  sleep 2.5
+  sleep 2
   clear
   system exit   
 end
 
+#Main quiz method including score
 def quiz
   
   if @god_mode == "-g"
@@ -127,10 +128,11 @@ def quiz
   end
 
   questions = QuestionBank.new(url)   #create QuestionBank instance
-  puts slow("\n#{questions.q_amount} questions. multiple choice. general knowledge. Level: #{questions.difficulty}.", 0.2)
+
+  #prepare user for quiz
+  puts slow("\n#{questions.q_amount} questions. multiple choice. general knowledge. Level: #{questions.difficulty}", 0.2)
   sleep 1
   any_key("READY?\n\n(hit spacebar to begin)")
-  p questions
   clear
 
   score = Score.new     #create Score instance
@@ -141,25 +143,23 @@ def quiz
   while questions.q_index < questions.q_amount
 
   #ask the question
-  user_answer = ask_prompt.select("#{questions.prompts[questions.q_index]}", questions.incorrect_answers[questions.q_index].push(questions.correct_answers[questions.q_index]).shuffle)
+    user_answer = ask_prompt.select("#{questions.prompts[questions.q_index]}", questions.incorrect_answers[questions.q_index].push(questions.correct_answers[questions.q_index]).shuffle)
     
     #keep score
     if user_answer != questions.correct_answers[questions.q_index]
       score.count += 0
-      # add_to_score((questions.q_index), user_answer, 0)
-      # add_to_score((@question_index), user_answer, 0)
       score.results << [questions.prompts[questions.q_index]]
       score.results << ["#{user_answer.colorize(:red)} => #{questions.correct_answers[questions.q_index]}"]
       clear
     else 
       score.count += 1
-      # add_to_score(@question_index, user_answer, 1)
       score.results << [questions.prompts[questions.q_index]]
       score.results << ["#{user_answer}  :-)".colorize(:green)]
       clear
     end
     questions.q_index += 1
   end
+  
   clear
   puts "processing your score.."
   prog_bar(8)
@@ -169,7 +169,7 @@ def quiz
   clear
   system("artii 'You scored  :' | lolcat -a -d 8 -S 0")
   system("artii ' #{score.count} out of #{questions.q_amount}' | lolcat -a -d 6 -S 0")
-  sleep 0.2
+  sleep 1
   clear
   print @cursor.down(1)
   score.results.each do |item| 
