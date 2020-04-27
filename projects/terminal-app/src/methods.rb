@@ -43,7 +43,6 @@ end
 def title
   title = Artii::Base.new
   puts title.asciify('Terminal Trivia !')
-  # system("artii 'Terminal Trivia !' | lolcat")
 end
 
 #welcome message 
@@ -51,48 +50,17 @@ def welcome
   clear
   print @cursor.invisible {
 
-  print @cursor.down(5)
-  print "10"
-  sleep 1.3
-  print @cursor.clear_line
-  print "9"
-  sleep 1.3
-  print @cursor.clear_line
-  print "8"
-  sleep 1.3
-  print @cursor.clear_line
   print "IT'S".colorize(:blue)
   sleep 1.3
   print @cursor.clear_line
-  print "7"
-  sleep 1
-  print @cursor.clear_line
-  print "6"
-  sleep 0.8
-  print @cursor.clear_line
   print "TIME".colorize(:blue)
-  sleep 0.8
-  print @cursor.clear_line
-  print "5"
-  sleep 0.7
-  print @cursor.clear_line
-  print "4"
-  sleep 0.5
+  sleep 1
   print @cursor.clear_line
   print "FOR".colorize(:blue)
-  sleep 0.4
-  print @cursor.clear_line
-  print "3"
-  sleep 0.4
-  print @cursor.clear_line
-  print "2"
-  sleep 0.4
-  print @cursor.clear_line
-  print "1"
-  sleep 0.3
+  sleep 1
   clear
   title
-  sleep 1
+  sleep 0.6
   any_key("Press any key to continue..")
   print @cursor.clear_lines(2, :up) }
 end
@@ -145,10 +113,11 @@ end
 
 def exit_app
   clear
-  puts "Bye."
-  sleep 2
+  bye = Artii::Base.new
+  puts bye.asciify('Bye!')
+  sleep 2.5
   clear
-  exit    ####find out how to close terminal window?
+  system exit   
 end
 
 def quiz
