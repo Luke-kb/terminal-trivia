@@ -9,15 +9,13 @@ Terminal Trivia is a simple trivia game that utilizes the Open Trivia Database A
 Terminal Trivia can be run using the `run-app.sh` file located in the `src` folder. 
 For detailed installation instructions see the Installation section of this README or the help file.
 
-### Features
-
-#### Core Features
+### Current Features
 
 ##### Set a validated username
   Username is set by user, using a built-in prompt and validation method of tty-prompt. Once username is validated, user confirms it is correct and then proceed to the game or exit the app.
   
 ##### Generate trivia questions 
-  Six Random general knowledge trivia questions from the [Open Trivia Database](https://opentdb.com/) are pulled using the provided API (and with help from HTTParty). tty-prompt provides simple question and answer navigation and multiple choice answer input. Default API call request 6 general knowledge questions in the 'EASY' difficulty level. This info is presented to the user just prior to answering the first question.
+  Six Random general knowledge trivia questions from the [Open Trivia Database](https://opentdb.com/) are pulled using the provided API (and with help from HTTParty). tty-prompt provides simple question and answer navigation and multiple choice answer input. Default API call request 6 general knowledge questions in the 'EASY' difficulty level. This info is presented to the user just prior to answering the first question. Each selection of questions for every instance of the game is randomised.
   
 ##### Print Score and Results
   Once all question been answers, score is printed first in big rainbow graphic (using artii and lolcat gems). Score is calculated as each answer is given and pushed into an array to be printed out in the form of score results. Assisted by HTMLEntities gem to decode the html entities present in the data (eg, &quot? etc.) A bit of font colouring (using colorize gem) was used to make it more readable and fun.
@@ -81,7 +79,7 @@ Cards in each list were given priority colours (Red 1, Orange 2, Yellow 3) and w
 
 ### Installation
 
-Please see Help.md
+Please see help.md
    
 #### Links
 - [Open Trivia Database](https://opentdb.com/)
