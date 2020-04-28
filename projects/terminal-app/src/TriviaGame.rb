@@ -8,8 +8,6 @@ class TriviaGame
     setup
   end
 
-  private
-
   def setup
 
     @god_mode = ARGV[0]
