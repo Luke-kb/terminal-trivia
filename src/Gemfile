@@ -20,6 +20,6 @@ gem "artii", "~> 2.1"
 
 gem "lolcat", "~> 100.0"
 
-gem "httparty", "~> 0.18.0"
+gem "httparty", "~> 0.21.0"
 
 gem "htmlentities", "~> 4.3"
